@@ -38,32 +38,14 @@ class List extends HTMLElement {
     this.handlechange()
   }
 
-  //TODO no tener que hacer focus off para disparar la acción
   handlechange = () => {
-    this.searchParam.addEventListener("change", ({ target }) => {
-      console.log(target.value)
+    this.searchParam.addEventListener("input", ({ target }) => {
+      document.getElementById("search-param").textContent = target.value
       this.getData(target.value)
     })
   }
 
-  //TODO descarga de sticker
-  async downloadImage(imageSrc) {
-    const urlImg = `https://i.giphy.com/media/${imageSrc?.images?.original?.hash}/giphy.webp`
-    // const image = await fetch(imageSrc?.images?.original.url)
-    const image = await fetch(urlImg)
-    const imageBlog = await image.blob()
-    const imageURL = URL.createObjectURL(imageBlog)
-
-    const link = document.createElement("a")
-    link.href = imageURL
-    link.download = imageSrc.title
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-  }
-
   render() {
-    console.log(this.state)
     this.shadow.replaceChildren()
     if (this.state?.data?.length >= 1) {
       const { data } = this.state
@@ -81,8 +63,7 @@ class List extends HTMLElement {
       this.shadow.appendChild(results)
       data.map((item) => {
         let listItem = document.createElement("li")
-        listItem.innerHTML = `<img style='width: 100%; cursor: pointer' src="${item.images.original.url}" />`
-        listItem.addEventListener("click", () => this.downloadImage(listItem))
+        listItem.innerHTML = `<a href='${item.images.original.url}'><img style='width: 100%; cursor: pointer' src="${item.images.original.url}" /></a>`
         results.appendChild(listItem)
       })
     } else {
