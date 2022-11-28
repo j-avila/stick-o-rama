@@ -15,7 +15,7 @@ class List extends HTMLElement {
 
   getData = async (params) => {
     const trend = `${env.apiURL}/trending?api_key=${env.apikey}&limit=25&rating=g`
-    const search = `${env.apiURL}/search?api_key=${env.apikey}&q=${params}&limit=5&offset=0&rating=g&lang=es?`
+    const search = `${env.apiURL}/search?api_key=${env.apikey}&q=${params}&limit=25&offset=0&rating=g&lang=es?`
     fetch(params ? search : trend, {
       headers: { "Content-Type": "application/json" },
     })
